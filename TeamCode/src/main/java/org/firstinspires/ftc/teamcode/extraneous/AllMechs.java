@@ -17,6 +17,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -28,9 +29,11 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 public class AllMechs {
     public DcMotor frontLeft, rearLeft, rearRight, frontRight;
     public ColorSensor colorSensor;
-    public NormalizedColorSensor color;
     public Gamepad testGamepad;
     public IMU imu;
+
+    public DcMotor intake;
+    public Servo pooper;
 
     public OpenCvCamera camera;
     // 640, 360
@@ -59,6 +62,12 @@ public class AllMechs {
 
         colorSensor = hardwareMap.get(ColorSensor.class, "color sensor");
 
+        intake = hardwareMap.get(DcMotor.class, "intake motor");
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        pooper = hardwareMap.get(Servo.class, "pooper");
+
+
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName()
         );
@@ -75,7 +84,7 @@ public class AllMechs {
 //        imu.initialize(parameters);
     }
 
-    public class checkColor implements Action {
+    public class CheckColorRed implements Action {
 
 
         double redColor = (double) colorSensor.red() / 2;
@@ -85,20 +94,24 @@ public class AllMechs {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             if (colorSensor.red() > colorSensor.green() + 50 && colorSensor.red() > colorSensor.blue() + 50) {
-                testGamepad.rumbleBlips(1);
-                testGamepad.setLedColor(255, 0, 0, 5000);
+                pooper.setPosition(0);
+                intake.setPower(0);
+                return false;
             } else if (greenColor > blueColor && redColor > blueColor) {
-                testGamepad.setLedColor(230, 230, 0, 5000);
-                testGamepad.rumbleBlips(2);
-            } else if (colorSensor.blue() > colorSensor.red() + 50 && blueColor > greenColor) {
-                testGamepad.setLedColor(0, 0, 225, 5000);
-                testGamepad.rumbleBlips(3);
+                pooper.setPosition(0);
+                intake.setPower(0);
+                return false;
             } else {
-                testGamepad.stopRumble();
+                pooper.setPosition(1);
+                intake.setPower(1);
+                return true;
             }
 
-            return false;
         }
+    }
+
+    public Action checkColorRed() {
+        return new CheckColorRed();
     }
 
     public Action checkColor() {
