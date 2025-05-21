@@ -26,61 +26,58 @@ public class MeepMeepTesting {
                 //drop preloaded
                 .setReversed(false)
                 .splineToLinearHeading(new Pose2d(-52, -52 , Math.toRadians(45)), -Math.PI)
-                /*
-                    elevator up and drop preloaded sample right here, then reset everything
-                */
 
-                //pick up second sample
-                .strafeToLinearHeading(new Vector2d(-48, -52), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-54, -45), Math.toRadians(90))
+
                 /*
-                    extend out and pick up first sample and then come back in.
+                middle spike barnacle detected
                  */
 
-                //score second sample
-                .strafeToLinearHeading(new Vector2d(-52, -52), Math.toRadians(45))
-                /*
-                    elevator up and drop preloaded sample right here, then reset everything
-                 */
+                                .turnTo(Math.toRadians(65))
+                        .setTangent(-Math.PI)
+                                .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), -Math.PI)
+                                .setTangent(0)
+                        .setReversed(false)
+                                .splineToLinearHeading(new Pose2d(-56, -44, Math.toRadians(130)), -Math.toRadians(180))
+                                .setTangent(-Math.toRadians(180))
+                        .setReversed(true)
+                                .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), 0)
+                                .setReversed(false)
+                                .setTangent(Math.toRadians(0))
+                                .splineToLinearHeading(new Pose2d(-40, -20, Math.toRadians(90)), Math.toRadians(90))
+                                .setTangent(Math.toRadians(90))
+                                .splineToLinearHeading(new Pose2d(-28, -9, Math.toRadians(0)), Math.toRadians(0))
+                                .setReversed(true)
+                                .setTangent(Math.PI)
+                                .splineToLinearHeading(new Pose2d(-40, -20, Math.toRadians(90)), Math.toRadians(-90))
+                                .setReversed(true)
+                                .setTangent(-Math.toRadians(90))
+                                .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), Math.toRadians(0))
 
-                //pick up third sample
-                .strafeToLinearHeading(new Vector2d(-58, -52), Math.toRadians(90))
-                /*
-                    extend out and pick up first sample and then come back in.
-                 */
 
-                //score third sample
-                .strafeToLinearHeading(new Vector2d(-52, -52), Math.toRadians(45))
-                /*
-                    elevator up and drop preloaded sample right here, then reset everything
-                 */
 
-                //pick up fourth sample
-//                .strafeToLinearHeading(new Vector2d(-58.5, -50), (Math.PI - Math.atan(2.4)))
-                .strafeToLinearHeading(new Vector2d(-54, -44), (Math.PI - Math.atan((18/14.5))))
                 /*
-                extend out, rotate the claw a bit pick up and then reset back.
+                    right spike barnacle detected
                  */
-
-                //score fourth sample
-                .strafeToLinearHeading(new Vector2d(-52, -52), Math.toRadians(45))
-                /*
-                    elevator up and drop preloaded sample right here, then reset everything
-                 */
-
-                //level one ascent
-                .setReversed(false)
-                .setTangent(-Math.toRadians(300))
-                .splineToSplineHeading(new Pose2d(-24, -4, Math.toRadians(180)), -Math.PI/13)
-                /*
-                robot.servoUp() to score level one ascent points
-                 */
-
+//                .strafeToLinearHeading(new Vector2d(-52, -52), Math.toRadians(45))
+//                .strafeToLinearHeading(new Vector2d(-54, -44), (Math.PI - Math.atan((18/14.5))))
+//                .strafeToLinearHeading(new Vector2d(-52, -52), Math.toRadians(45))
 //                .setReversed(false)
-//                .splineToLinearHeading(new Pose2d(-60, -41, Math.toRadians(90)), Math.toRadians(540))
-//                .strafeToLinearHeading(new Vector2d(-55, -55), Math.toRadians(45))
-//                .setReversed(false)
-//                .splineToSplineHeading(new Pose2d(-52, -40, Math.toRadians(135)), Math.toRadians(90))
-//                .strafeToLinearHeading(new Vector2d(-55, -55), Math.toRadians(45))
+//                        .setTangent(Math.toRadians(270))
+//                .splineToLinearHeading(new Pose2d(-60, -50, Math.toRadians(90)), -Math.toRadians(270))
+//                                .setTangent(-Math.toRadians(270))
+//                                .splineToConstantHeading(new Vector2d(-60, -6), -Math.toRadians(270))
+//                                .splineToLinearHeading(new Pose2d(-30, -6, Math.toRadians(0)), Math.toRadians(0))
+//
+//                                .setReversed(true)
+//                                .splineToSplineHeading(new Pose2d(-60, -6, Math.toRadians(90)), Math.toRadians(180))
+//                        .setReversed(true)
+//                        .setTangent(Math.toRadians(270))
+//                                .splineToLinearHeading(new Pose2d(-60, -50, Math.toRadians(90)), Math.toRadians(-90))
+//
+//                    .splineToLinearHeading(new Pose2d(-52, -52, Math.toRadians(45)), -Math.toRadians(270))
+//                        .setTangent(Math.toRadians(0))
+//                                .splineToLinearHeading(new Pose2d(-30, -55, Math.toRadians(0)), Math.toRadians(0))
                 .build());
 
 //        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(10, -66, Math.toRadians(270)))

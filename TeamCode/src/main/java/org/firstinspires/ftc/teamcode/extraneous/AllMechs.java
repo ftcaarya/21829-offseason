@@ -21,7 +21,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.vision.EnhancedColorDetectionProcessor;
 import org.firstinspires.ftc.teamcode.vision.OpenCVPipeline;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.VisionProcessor;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -34,6 +37,9 @@ public class AllMechs {
 
     public DcMotor intake;
     public Servo pooper;
+
+    public VisionPortal visionPortal;
+    public EnhancedColorDetectionProcessor colourMassDetectionProcessor;
 
     public OpenCvCamera camera;
     // 640, 360
@@ -48,7 +54,8 @@ public class AllMechs {
     static double width = 0;
 
 
-    public AllMechs(HardwareMap hardwareMap) {
+
+    public AllMechs(HardwareMap hardwareMap, int left, int right) {
         frontLeft = hardwareMap.get(DcMotor.class, "left front");
         rearLeft = hardwareMap.get(DcMotor.class, "left rear");
         rearRight = hardwareMap.get(DcMotor.class, "right rear");
@@ -82,6 +89,22 @@ public class AllMechs {
 //                RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
 //
 //        imu.initialize(parameters);
+
+        double lowerH = 150; // the lower hsv threshold for your detection
+        double upperH = 180; // the upper hsv threshold for your detection
+        double minArea = 100; // the minimum area for the detection to consider for your prop
+
+        colourMassDetectionProcessor = new EnhancedColorDetectionProcessor(
+                lowerH,
+                upperH,
+                () -> minArea,
+                () -> left, // the left dividing line, in this case the left third of the frame
+                () -> right // the left dividing line, in this case the right third of the frame
+        );
+
+        visionPortal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                .build();
     }
 
     public class CheckColorRed implements Action {
@@ -140,4 +163,6 @@ public class AllMechs {
             return new InstantAction(() -> testGamepad.stopRumble());
         }
     }
+
+
 }

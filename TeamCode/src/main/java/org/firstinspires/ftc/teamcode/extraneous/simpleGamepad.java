@@ -15,7 +15,7 @@ public class simpleGamepad extends OpMode {
 
     @Override
     public void init() {
-        robot = new AllMechs(hardwareMap);
+        robot = new AllMechs(hardwareMap, 0, 0);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class testing extends OpMode {
         colorSensor = hardwareMap.get(ColorSensor.class, "color sensor");
 
         intake = hardwareMap.get(DcMotor.class, "intake motor");
-        intake.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
 
         pooper = hardwareMap.get(Servo.class, "pooper");
     }
@@ -37,6 +37,11 @@ public class testing extends OpMode {
     @Override
     public void loop() {
         TelemetryPacket packet = new TelemetryPacket();
+
+        telemetry.addData("Red: ", colorSensor.red());
+        telemetry.addData("Green: ", colorSensor.green());
+        telemetry.addData("Blue: ", colorSensor.blue());
+        telemetry.update();
 
         runningActions.add(
                 checkColorRed()
@@ -71,7 +76,7 @@ public class testing extends OpMode {
                 return false;
             } else if (greenColor > blueColor && redColor > blueColor) {
                 pooper.setPosition(.9);
-                intake.setPower(0);
+                intake.setPower(.5);
                 return false;
             } else {
                 pooper.setPosition(.1);
